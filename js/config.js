@@ -4,13 +4,13 @@
 
 // Configuration Firebase (on va la remplir après)
 const firebaseConfig = {
-    apiKey: "VOTRE_API_KEY",
-    authDomain: "VOTRE_PROJET.firebaseapp.com",
-    databaseURL: "https://VOTRE_PROJET-default-rtdb.firebaseio.com",
-    projectId: "VOTRE_PROJET",
-    storageBucket: "VOTRE_PROJET.appspot.com",
-    messagingSenderId: "123456789",
-    appId: "VOTRE_APP_ID"
+  apiKey: "AIzaSyCnXAkY056vOTYyXrKFelKpLu4Bs7jn4wM",
+  authDomain: "house-player-d00f1.firebaseapp.com",
+  databaseURL: "https://house-player-d00f1-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "house-player-d00f1",
+  storageBucket: "house-player-d00f1.firebasestorage.app",
+  messagingSenderId: "516895498262",
+  appId: "1:516895498262:web:42d99423aa55c39948d537"
 };
 
 // Initialiser Firebase
