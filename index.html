@@ -5,214 +5,160 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>House Player - Activation</title>
     <link rel="stylesheet" href="css/website.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/svg+xml" href="images/logo.svg">
 </head>
 <body>
-    <div class="container">
-        <!-- Header -->
-        <header class="header">
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
             <div class="logo">
-                <i class="fas fa-home"></i>
-                <span>House Player</span>
+                <div class="logo-icon">
+                    <i class="fas fa-home"></i>
+                    <i class="fas fa-play"></i>
+                </div>
+                <div class="logo-text">
+                    <span class="logo-house">HOUSE</span>
+                    <span class="logo-player">PLAYER</span>
+                </div>
             </div>
-            <nav class="nav">
-                <a href="#home">Accueil</a>
-                <a href="#activate">Activer</a>
-                <a href="#help">Aide</a>
+            
+            <nav class="nav-menu">
+                <a href="#home" class="nav-item active" data-section="home">
+                    <i class="fas fa-home"></i>
+                    <span>Accueil</span>
+                </a>
+                <a href="#activate" class="nav-item" data-section="activate">
+                    <i class="fas fa-key"></i>
+                    <span>Activer TV</span>
+                </a>
+                <a href="#playlists" class="nav-item" data-section="playlists">
+                    <i class="fas fa-list"></i>
+                    <span>Playlists</span>
+                </a>
+                <a href="#help" class="nav-item" data-section="help">
+                    <i class="fas fa-question-circle"></i>
+                    <span>Aide</span>
+                </a>
             </nav>
-        </header>
-
-        <!-- Hero Section -->
-        <section id="home" class="hero">
-            <h1>Bienvenue sur <span class="cyan">House Player</span></h1>
-            <p>Regardez vos chaînes préférées sur votre Smart TV</p>
-            <a href="#activate" class="btn-primary">
-                <i class="fas fa-tv"></i> Activer ma TV
-            </a>
-        </section>
-
-        <!-- Activation Section -->
-        <section id="activate" class="activation-section">
-            <div class="card">
-                <h2><i class="fas fa-key"></i> Connexion à votre TV</h2>
-                <p class="subtitle">Entrez les informations affichées sur votre téléviseur</p>
-                
-                <form id="activationForm">
-                    <div class="form-group">
-                        <label for="macAddress">
-                            <i class="fas fa-fingerprint"></i> Adresse MAC
-                        </label>
-                        <input 
-                            type="text" 
-                            id="macAddress" 
-                            placeholder="XX:XX:XX:XX:XX:XX"
-                            maxlength="17"
-                            required
-                        >
-                        <small>Visible sur votre TV dans l'application</small>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="pinCode">
-                            <i class="fas fa-lock"></i> Code PIN (5 chiffres)
-                        </label>
-                        <input 
-                            type="text" 
-                            id="pinCode" 
-                            placeholder="12345"
-                            maxlength="5"
-                            pattern="[0-9]{5}"
-                            required
-                        >
-                        <small>Code à 5 chiffres affiché sur votre TV</small>
-                    </div>
-
-                    <button type="submit" class="btn-primary btn-full">
-                        <i class="fas fa-sign-in-alt"></i> Se connecter
-                    </button>
-                </form>
-
-                <div id="connectionStatus" class="status hidden"></div>
+            
+            <div class="sidebar-footer">
+                <p>Version 1.0.0</p>
             </div>
-        </section>
+        </aside>
 
-        <!-- Playlist Management (après connexion) -->
-        <section id="playlistSection" class="playlist-section hidden">
-            <div class="card">
-                <div class="card-header">
-                    <h2><i class="fas fa-list"></i> Gestion des Playlists</h2>
-                    <button id="logoutBtn" class="btn-secondary">
-                        <i class="fas fa-sign-out-alt"></i> Déconnexion
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Home Section -->
+            <section id="home" class="content-section active">
+                <div class="hero-card">
+                    <div class="hero-icon">
+                        <i class="fas fa-tv"></i>
+                    </div>
+                    <h1>Bienvenue sur <span class="cyan">House Player</span></h1>
+                    <p>La meilleure application IPTV pour votre Smart TV</p>
+                    <div class="hero-features">
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Samsung Tizen</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>LG WebOS</span>
+                        </div>
+                        <div class="feature">
+                            <i class="fas fa-check-circle"></i>
+                            <span>Hisense Vidaa</span>
+                        </div>
+                    </div>
+                    <button class="btn-primary" onclick="showSection('activate')">
+                        <i class="fas fa-rocket"></i>
+                        Commencer l'activation
                     </button>
                 </div>
 
-                <div class="device-info">
-                    <span><i class="fas fa-tv"></i> TV connectée : </span>
-                    <span id="connectedMac" class="cyan">--:--:--:--:--:--</span>
+                <div class="info-cards">
+                    <div class="info-card">
+                        <div class="info-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3>100% Gratuit</h3>
+                        <p>Aucun abonnement requis</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon"><i class="fas fa-bolt"></i></div>
+                        <h3>Rapide</h3>
+                        <p>Configuration en 2 minutes</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon"><i class="fas fa-hd"></i></div>
+                        <h3>Qualité HD</h3>
+                        <p>Streaming haute qualité</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Activation Section -->
+            <section id="activate" class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-key"></i> Connexion à votre TV</h2>
+                    <p>Entrez les informations affichées sur votre téléviseur</p>
                 </div>
 
-                <!-- Ajouter une playlist -->
-                <div class="add-playlist-section">
-                    <h3><i class="fas fa-plus-circle"></i> Ajouter une Playlist</h3>
-                    
-                    <div class="tabs">
-                        <button class="tab active" data-tab="url">
-                            <i class="fas fa-link"></i> URL M3U
+                <div class="activation-card">
+                    <form id="activationForm">
+                        <div class="form-group">
+                            <label for="macAddress">
+                                <i class="fas fa-fingerprint"></i> Adresse MAC
+                            </label>
+                            <input 
+                                type="text" 
+                                id="macAddress" 
+                                placeholder="XX:XX:XX:XX:XX:XX"
+                                maxlength="17"
+                                required
+                            >
+                            <span class="input-hint">Format: AA:BB:CC:DD:EE:FF</span>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="pinCode">
+                                <i class="fas fa-lock"></i> Code PIN
+                            </label>
+                            <input 
+                                type="text" 
+                                id="pinCode" 
+                                placeholder="• • • • •"
+                                maxlength="5"
+                                pattern="[0-9]{5}"
+                                required
+                            >
+                            <span class="input-hint">Code à 5 chiffres affiché sur votre TV</span>
+                        </div>
+
+                        <button type="submit" class="btn-primary btn-full">
+                            <i class="fas fa-sign-in-alt"></i> Se connecter
                         </button>
-                        <button class="tab" data-tab="xtream">
-                            <i class="fas fa-server"></i> Xtream Codes
+                    </form>
+
+                    <div id="connectionStatus" class="status hidden"></div>
+                </div>
+            </section>
+
+            <!-- Playlists Section -->
+            <section id="playlists" class="content-section">
+                <div id="notConnectedMsg">
+                    <div class="empty-state">
+                        <i class="fas fa-plug"></i>
+                        <h3>Non connecté</h3>
+                        <p>Connectez d'abord votre TV pour gérer vos playlists</p>
+                        <button class="btn-primary" onclick="showSection('activate')">
+                            <i class="fas fa-key"></i> Connecter ma TV
                         </button>
                     </div>
-
-                    <!-- Tab URL -->
-                    <div id="urlTab" class="tab-content active">
-                        <form id="urlForm">
-                            <div class="form-group">
-                                <label for="playlistName">Nom de la playlist</label>
-                                <input type="text" id="playlistName" placeholder="Ma Playlist" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="playlistUrl">URL M3U / M3U8</label>
-                                <input type="url" id="playlistUrl" placeholder="http://exemple.com/playlist.m3u" required>
-                            </div>
-                            <button type="submit" class="btn-primary">
-                                <i class="fas fa-plus"></i> Ajouter
-                            </button>
-                        </form>
-                    </div>
-
-                    <!-- Tab Xtream -->
-                    <div id="xtreamTab" class="tab-content">
-                        <form id="xtreamForm">
-                            <div class="form-group">
-                                <label for="xtreamName">Nom de la playlist</label>
-                                <input type="text" id="xtreamName" placeholder="Mon IPTV" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="serverUrl">URL du serveur</label>
-                                <input type="url" id="serverUrl" placeholder="http://serveur.com:port" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="username">Nom d'utilisateur</label>
-                                <input type="text" id="username" placeholder="username" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="password">Mot de passe</label>
-                                <input type="password" id="password" placeholder="password" required>
-                            </div>
-                            <button type="submit" class="btn-primary">
-                                <i class="fas fa-plus"></i> Ajouter
-                            </button>
-                        </form>
-                    </div>
                 </div>
 
-                <!-- Liste des playlists -->
-                <div class="playlists-list">
-                    <h3><i class="fas fa-folder-open"></i> Mes Playlists</h3>
-                    <div id="playlistContainer">
-                        <p class="no-playlist">Aucune playlist ajoutée</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Help Section -->
-        <section id="help" class="help-section">
-            <div class="card">
-                <h2><i class="fas fa-question-circle"></i> Comment ça marche ?</h2>
-                
-                <div class="steps">
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <div class="step-content">
-                            <h4>Installez l'application</h4>
-                            <p>Téléchargez House Player sur votre Smart TV (Samsung, LG ou Hisense)</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <div class="step-content">
-                            <h4>Notez votre MAC et PIN</h4>
-                            <p>L'application affiche votre adresse MAC et un code PIN à 5 chiffres</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <div class="step-content">
-                            <h4>Connectez-vous ici</h4>
-                            <p>Entrez votre MAC et PIN sur ce site</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">4</div>
-                        <div class="step-content">
-                            <h4>Ajoutez vos playlists</h4>
-                            <p>Ajoutez vos liens M3U ou vos codes Xtream</p>
-                        </div>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">5</div>
-                        <div class="step-content">
-                            <h4>Profitez !</h4>
-                            <p>Rafraîchissez l'app sur votre TV et regardez vos chaînes</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Footer -->
-        <footer class="footer">
-            <p>© 2024 House Player - Tous droits réservés</p>
-        </footer>
-    </div>
-
-    <!-- Firebase -->
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-    <script src="js/config.js"></script>
-    <script src="js/website.js"></script>
-</body>
-</html>
+                <div id="playlistManager" class="hidden">
+                    <div class="section-header">
+                        <div>
+                            <h2><i class="fas fa-list"></i> Mes Playlists</h2>
+                            <p>TV 
