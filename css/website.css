@@ -1,0 +1,443 @@
+/* ========================================
+   HOUSE PLAYER - WEBSITE STYLES
+   Couleurs: Cyan (#00BCD4) et Gris
+   ======================================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --cyan: #00BCD4;
+    --cyan-dark: #00838F;
+    --cyan-light: #4DD0E1;
+    --gray-dark: #1a1a2e;
+    --gray-medium: #16213e;
+    --gray-light: #1f3460;
+    --text-primary: #ffffff;
+    --text-secondary: #b0b0b0;
+    --success: #4CAF50;
+    --error: #f44336;
+    --warning: #ff9800;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, var(--gray-dark) 0%, var(--gray-medium) 100%);
+    color: var(--text-primary);
+    min-height: 100vh;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.cyan {
+    color: var(--cyan);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* ========== HEADER ========== */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(0, 188, 212, 0.2);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--cyan);
+}
+
+.logo i {
+    font-size: 2rem;
+}
+
+.nav {
+    display: flex;
+    gap: 30px;
+}
+
+.nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav a:hover {
+    color: var(--cyan);
+}
+
+/* ========== HERO ========== */
+.hero {
+    text-align: center;
+    padding: 80px 20px;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.hero p {
+    font-size: 1.3rem;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+}
+
+/* ========== BUTTONS ========== */
+.btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: linear-gradient(135deg, var(--cyan) 0%, var(--cyan-dark) 100%);
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    text-decoration: none;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 30px rgba(0, 188, 212, 0.4);
+}
+
+.btn-full {
+    width: 100%;
+    justify-content: center;
+}
+
+.btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    color: var(--cyan);
+    padding: 10px 20px;
+    border: 2px solid var(--cyan);
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-secondary:hover {
+    background: var(--cyan);
+    color: var(--gray-dark);
+}
+
+.btn-danger {
+    background: var(--error);
+    border-color: var(--error);
+    color: white;
+}
+
+.btn-danger:hover {
+    background: #d32f2f;
+}
+
+/* ========== CARDS ========== */
+.card {
+    background: rgba(31, 52, 96, 0.5);
+    border-radius: 20px;
+    padding: 40px;
+    margin: 20px 0;
+    border: 1px solid rgba(0, 188, 212, 0.1);
+    backdrop-filter: blur(10px);
+}
+
+.card h2 {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+    color: var(--cyan);
+}
+
+.card .subtitle {
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* ========== FORMS ========== */
+.form-group {
+    margin-bottom: 25px;
+}
+
+.form-group label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.form-group input {
+    width: 100%;
+    padding: 15px 20px;
+    background: var(--gray-dark);
+    border: 2px solid var(--gray-light);
+    border-radius: 10px;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: var(--cyan);
+}
+
+.form-group input::placeholder {
+    color: var(--text-secondary);
+}
+
+.form-group small {
+    display: block;
+    margin-top: 5px;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+}
+
+/* ========== STATUS MESSAGES ========== */
+.status {
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.status.success {
+    background: rgba(76, 175, 80, 0.2);
+    border: 1px solid var(--success);
+    color: var(--success);
+}
+
+.status.error {
+    background: rgba(244, 67, 54, 0.2);
+    border: 1px solid var(--error);
+    color: var(--error);
+}
+
+/* ========== DEVICE INFO ========== */
+.device-info {
+    background: var(--gray-dark);
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* ========== TABS ========== */
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab {
+    flex: 1;
+    padding: 15px;
+    background: var(--gray-dark);
+    border: 2px solid var(--gray-light);
+    border-radius: 10px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.tab:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+}
+
+.tab.active {
+    background: var(--cyan);
+    border-color: var(--cyan);
+    color: var(--gray-dark);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* ========== PLAYLISTS ========== */
+.add-playlist-section {
+    background: var(--gray-dark);
+    padding: 25px;
+    border-radius: 15px;
+    margin-bottom: 30px;
+}
+
+.add-playlist-section h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    color: var(--cyan);
+}
+
+.playlists-list h3 {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    color: var(--cyan);
+}
+
+.no-playlist {
+    text-align: center;
+    color: var(--text-secondary);
+    padding: 40px;
+    background: var(--gray-dark);
+    border-radius: 10px;
+}
+
+.playlist-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--gray-dark);
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    border: 1px solid var(--gray-light);
+}
+
+.playlist-item:hover {
+    border-color: var(--cyan);
+}
+
+.playlist-info h4 {
+    margin-bottom: 5px;
+}
+
+.playlist-info .type {
+    font-size: 0.85rem;
+    color: var(--cyan);
+}
+
+.playlist-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.playlist-actions button {
+    padding: 10px 15px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+/* ========== HELP SECTION ========== */
+.steps {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin-top: 30px;
+}
+
+.step {
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.step-number {
+    width: 50px;
+    height: 50px;
+    background: var(--cyan);
+    color: var(--gray-dark);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.step-content h4 {
+    margin-bottom: 5px;
+    color: var(--text-primary);
+}
+
+.step-content p {
+    color: var(--text-secondary);
+}
+
+/* ========== FOOTER ========== */
+.footer {
+    text-align: center;
+    padding: 30px;
+    margin-top: 50px;
+    color: var(--text-secondary);
+    border-top: 1px solid rgba(0, 188, 212, 0.2);
+}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .hero h1 {
+        font-size: 2rem;
+    }
+
+    .card {
+        padding: 25px;
+    }
+
+    .tabs {
+        flex-direction: column;
+    }
+
+    .playlist-item {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+}
