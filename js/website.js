@@ -1,46 +1,132 @@
 // ========================================
 // HOUSE PLAYER - WEBSITE JAVASCRIPT
+// Style ibo player pro
 // ========================================
 
 // Variables globales
 let currentDevice = null;
 
-// ========== GESTION DES ONGLETS ==========
-document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-        // Retirer la classe active de tous les onglets
-        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-        
-        // Ajouter la classe active à l'onglet cliqué
-        tab.classList.add('active');
-        const tabId = tab.getAttribute('data-tab');
-        document.getElementById(tabId + 'Tab').classList.add('active');
-    });
+// ========== INITIALISATION ==========
+document.addEventListener('DOMContentLoaded', function() {
+    initNavigation();
+    initTabs();
+    initForms();
+    initFAQ();
 });
 
-// ========== FORMATAGE DE L'ADRESSE MAC ==========
-document.getElementById('macAddress').addEventListener('input', function(e) {
-    let value = e.target.value.replace(/[^A-Fa-f0-9]/g, '').toUpperCase();
-    let formatted = '';
-    
-    for (let i = 0; i < value.length && i < 12; i++) {
-        if (i > 0 && i % 2 === 0) {
-            formatted += ':';
+// ========== NAVIGATION ==========
+function initNavigation() {
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            const section = this.getAttribute('data-section');
+            showSection(section);
+        });
+    });
+}
+
+function showSection(sectionId) {
+    // Update nav
+    document.querySelectorAll('.nav-item').forEach(item => {
+        item.classList.remove('active');
+        if (item.getAttribute('data-section') === sectionId) {
+            item.classList.add('active');
         }
-        formatted += value[i];
+    });
+    
+    // Update sections
+    document.querySelectorAll('.content-section').forEach(section => {
+        section.classList.remove('active');
+    });
+    
+    document.getElementById(sectionId).classList.add('active');
+    
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ========== TABS ==========
+function initTabs() {
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', function() {
+            const tab = this.getAttribute('data-tab');
+            
+            // Update buttons
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            
+            // Update panels
+            document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+            document.getElementById(tab + 'Tab').classList.add('active');
+        });
+    });
+}
+
+// ========== FAQ ==========
+function initFAQ() {
+    document.querySelectorAll('.faq-question').forEach(q => {
+        q.addEventListener('click', function() {
+            const item = this.parentElement;
+            item.classList.toggle('active');
+        });
+    });
+}
+
+// ========== FORMS ==========
+function initForms() {
+    // Format MAC address
+    const macInput = document.getElementById('macAddress');
+    if (macInput) {
+        macInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/[^A-Fa-f0-9]/g, '').toUpperCase();
+            let formatted = '';
+            
+            for (let i = 0; i < value.length && i < 12; i++) {
+                if (i > 0 && i % 2 === 0) {
+                    formatted += ':';
+                }
+                formatted += value[i];
+            }
+            
+            e.target.value = formatted;
+        });
     }
     
-    e.target.value = formatted;
-});
+    // PIN validation
+    const pinInput = document.getElementById('pinCode');
+    if (pinInput) {
+        pinInput.addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/[^0-9]/g, '').substring(0, 5);
+        });
+    }
+    
+    // Activation form
+    const activationForm = document.getElementById('activationForm');
+    if (activationForm) {
+        activationForm.addEventListener('submit', handleActivation);
+    }
+    
+    // URL form
+    const urlForm = document.getElementById('urlForm');
+    if (urlForm) {
+        urlForm.addEventListener('submit', handleURLPlaylist);
+    }
+    
+    // Xtream form
+    const xtreamForm = document.getElementById('xtreamForm');
+    if (xtreamForm) {
+        xtreamForm.addEventListener('submit', handleXtreamPlaylist);
+    }
+    
+    // Logout
+    const logoutBtn = document.getElementById('logoutBtn');
+    if (logoutBtn) {
+        logoutBtn.addEventListener('click', handleLogout);
+    }
+}
 
-// ========== VALIDATION DU PIN ==========
-document.getElementById('pinCode').addEventListener('input', function(e) {
-    e.target.value = e.target.value.replace(/[^0-9]/g, '').substring(0, 5);
-});
-
-// ========== FORMULAIRE DE CONNEXION ==========
-document.getElementById('activationForm').addEventListener('submit', async function(e) {
+// ========== ACTIVATION ==========
+async function handleActivation(e) {
     e.preventDefault();
     
     const mac = document.getElementById('macAddress').value.toUpperCase();
@@ -58,17 +144,15 @@ document.getElementById('activationForm').addEventListener('submit', async funct
         return;
     }
     
-    // Afficher le chargement
     showStatus(statusDiv, 'loading', 'Vérification en cours...');
     
     try {
-        // Vérifier dans Firebase
         const macKey = mac.replace(/:/g, '_');
         const snapshot = await database.ref('devices/' + macKey).once('value');
         const device = snapshot.val();
         
         if (!device) {
-            showStatus(statusDiv, 'error', 'Appareil non trouvé. Lancez d\'abord l\'application sur votre TV.');
+            showStatus(statusDiv, 'error', 'Appareil non trouvé. Lancez d\'abord l\'app sur votre TV.');
             return;
         }
         
@@ -81,11 +165,12 @@ document.getElementById('activationForm').addEventListener('submit', async funct
         currentDevice = { mac, macKey, ...device };
         showStatus(statusDiv, 'success', 'Connexion réussie !');
         
-        // Afficher la section playlist
+        // Afficher gestionnaire de playlists
         setTimeout(() => {
-            document.getElementById('activate').classList.add('hidden');
-            document.getElementById('playlistSection').classList.remove('hidden');
+            document.getElementById('notConnectedMsg').classList.add('hidden');
+            document.getElementById('playlistManager').classList.remove('hidden');
             document.getElementById('connectedMac').textContent = mac;
+            showSection('playlists');
             loadPlaylists();
         }, 1000);
         
@@ -93,31 +178,24 @@ document.getElementById('activationForm').addEventListener('submit', async funct
         console.error('Erreur:', error);
         showStatus(statusDiv, 'error', 'Erreur de connexion. Réessayez.');
     }
-});
+}
 
-// ========== AFFICHER LE STATUT ==========
+// ========== STATUS DISPLAY ==========
 function showStatus(element, type, message) {
-    element.classList.remove('hidden', 'success', 'error');
+    element.classList.remove('hidden', 'success', 'error', 'loading');
+    element.classList.add(type);
     
     let icon = '';
     switch(type) {
-        case 'success':
-            icon = '<i class="fas fa-check-circle"></i>';
-            element.classList.add('success');
-            break;
-        case 'error':
-            icon = '<i class="fas fa-exclamation-circle"></i>';
-            element.classList.add('error');
-            break;
-        case 'loading':
-            icon = '<i class="fas fa-spinner fa-spin"></i>';
-            break;
+        case 'success': icon = '<i class="fas fa-check-circle"></i>'; break;
+        case 'error': icon = '<i class="fas fa-exclamation-circle"></i>'; break;
+        case 'loading': icon = '<i class="fas fa-spinner fa-spin"></i>'; break;
     }
     
     element.innerHTML = icon + ' ' + message;
 }
 
-// ========== CHARGER LES PLAYLISTS ==========
+// ========== PLAYLISTS ==========
 async function loadPlaylists() {
     if (!currentDevice) return;
     
@@ -128,7 +206,12 @@ async function loadPlaylists() {
         const playlists = snapshot.val();
         
         if (!playlists || Object.keys(playlists).length === 0) {
-            container.innerHTML = '<p class="no-playlist">Aucune playlist ajoutée</p>';
+            container.innerHTML = `
+                <div class="empty-playlist">
+                    <i class="fas fa-inbox"></i>
+                    <p>Aucune playlist</p>
+                </div>
+            `;
             return;
         }
         
@@ -140,10 +223,13 @@ async function loadPlaylists() {
             item.innerHTML = `
                 <div class="playlist-info">
                     <h4>${escapeHtml(playlist.name)}</h4>
-                    <span class="type">${playlist.type === 'xtream' ? 'Xtream Codes' : 'URL M3U'}</span>
+                    <span class="type">
+                        <i class="fas fa-${playlist.type === 'xtream' ? 'server' : 'link'}"></i>
+                        ${playlist.type === 'xtream' ? 'Xtream Codes' : 'URL M3U'}
+                    </span>
                 </div>
                 <div class="playlist-actions">
-                    <button class="btn-secondary btn-danger" onclick="deletePlaylist('${id}')">
+                    <button class="btn-icon btn-delete" onclick="deletePlaylist('${id}')">
                         <i class="fas fa-trash"></i>
                     </button>
                 </div>
@@ -153,12 +239,12 @@ async function loadPlaylists() {
         
     } catch (error) {
         console.error('Erreur chargement playlists:', error);
-        container.innerHTML = '<p class="no-playlist">Erreur de chargement</p>';
+        container.innerHTML = '<p class="empty-playlist">Erreur de chargement</p>';
     }
 }
 
-// ========== AJOUTER UNE PLAYLIST URL ==========
-document.getElementById('urlForm').addEventListener('submit', async function(e) {
+// ========== ADD URL PLAYLIST ==========
+async function handleURLPlaylist(e) {
     e.preventDefault();
     
     if (!currentDevice) return;
@@ -175,98 +261,96 @@ document.getElementById('urlForm').addEventListener('submit', async function(e) 
     
     try {
         await database.ref('devices/' + currentDevice.macKey + '/playlists').push(playlist);
-        
-        // Réinitialiser le formulaire
         document.getElementById('urlForm').reset();
-        
-        // Recharger la liste
         loadPlaylists();
-        
-        alert('Playlist ajoutée avec succès !');
-        
+        showNotification('Playlist ajoutée !', 'success');
     } catch (error) {
         console.error('Erreur:', error);
-        alert('Erreur lors de l\'ajout de la playlist');
+        showNotification('Erreur lors de l\'ajout', 'error');
     }
-});
+}
 
-// ========== AJOUTER UNE PLAYLIST XTREAM ==========
-document.getElementById('xtreamForm').addEventListener('submit', async function(e) {
+// ========== ADD XTREAM PLAYLIST ==========
+async function handleXtreamPlaylist(e) {
     e.preventDefault();
     
     if (!currentDevice) return;
     
-    const name = document.getElementById('xtreamName').value;
-    const server = document.getElementById('serverUrl').value;
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
-    
     const playlist = {
-        name: name,
+        name: document.getElementById('xtreamName').value,
         type: 'xtream',
-        server: server,
-        username: username,
-        password: password,
+        server: document.getElementById('serverUrl').value,
+        username: document.getElementById('username').value,
+        password: document.getElementById('password').value,
         addedAt: Date.now()
     };
     
     try {
         await database.ref('devices/' + currentDevice.macKey + '/playlists').push(playlist);
-        
-        // Réinitialiser le formulaire
         document.getElementById('xtreamForm').reset();
-        
-        // Recharger la liste
         loadPlaylists();
-        
-        alert('Playlist Xtream ajoutée avec succès !');
-        
+        showNotification('Playlist Xtream ajoutée !', 'success');
     } catch (error) {
         console.error('Erreur:', error);
-        alert('Erreur lors de l\'ajout de la playlist');
+        showNotification('Erreur lors de l\'ajout', 'error');
     }
-});
+}
 
-// ========== SUPPRIMER UNE PLAYLIST ==========
+// ========== DELETE PLAYLIST ==========
 async function deletePlaylist(playlistId) {
     if (!currentDevice) return;
     
-    if (!confirm('Voulez-vous vraiment supprimer cette playlist ?')) {
-        return;
-    }
+    if (!confirm('Supprimer cette playlist ?')) return;
     
     try {
         await database.ref('devices/' + currentDevice.macKey + '/playlists/' + playlistId).remove();
         loadPlaylists();
+        showNotification('Playlist supprimée', 'success');
     } catch (error) {
         console.error('Erreur:', error);
-        alert('Erreur lors de la suppression');
+        showNotification('Erreur lors de la suppression', 'error');
     }
 }
 
-// ========== DÉCONNEXION ==========
-document.getElementById('logoutBtn').addEventListener('click', function() {
+// ========== LOGOUT ==========
+function handleLogout() {
     currentDevice = null;
-    document.getElementById('playlistSection').classList.add('hidden');
-    document.getElementById('activate').classList.remove('hidden');
-    document.getElementById('connectionStatus').classList.add('hidden');
+    document.getElementById('playlistManager').classList.add('hidden');
+    document.getElementById('notConnectedMsg').classList.remove('hidden');
     document.getElementById('activationForm').reset();
-});
+    document.getElementById('connectionStatus').classList.add('hidden');
+    showSection('activate');
+}
 
-// ========== UTILITAIRES ==========
+// ========== NOTIFICATION ==========
+function showNotification(message, type) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 25px;
+        background: ${type === 'success' ? '#4CAF50' : '#f44336'};
+        color: white;
+        border-radius: 10px;
+        font-weight: 500;
+        z-index: 9999;
+        animation: slideIn 0.3s ease;
+    `;
+    notification.innerHTML = `<i class="fas fa-${type === 'success' ? 'check' : 'exclamation'}-circle"></i> ${message}`;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
+
+// ========== UTILITIES ==========
 function escapeHtml(text) {
+    if (!text) return '';
     const div = document.createElement('div');
     div.textContent = text;
     return div.innerHTML;
 }
-
-// Navigation fluide
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function(e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth' });
-        }
-    });
-});
